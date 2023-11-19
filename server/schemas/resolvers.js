@@ -1,5 +1,7 @@
 const { User } = require('../models/');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const AuthService = require('../path_to_your_AuthService_file');
 
 const resolvers = {
   Query: {
@@ -24,10 +26,11 @@ const resolvers = {
         throw new Error('Invalid credentials');
       }
 
-      // Create JWT token or set session for authentication
-      // Example with JWT:
-      // const token = createToken(user);
-      // context.req.session.token = token;
+      // Create JWT token for authentication
+      const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
+
+      // Store the token in localStorage using your AuthService
+      AuthService.login(token);
 
       return user;
     },
@@ -46,10 +49,11 @@ const resolvers = {
         password: hashedPassword,
       });
 
-      // Create JWT token or set session for authentication for the new user
-      // Example with JWT:
-      // const token = createToken(newUser);
-      // context.req.session.token = token;
+      // Create JWT token for the new user upon successful registration
+      const token = jwt.sign({ userId: newUser._id }, 'your_secret_key', { expiresIn: '1h' });
+
+      // Store the token in localStorage using your AuthService
+      AuthService.login(token);
 
       return newUser;
     },
