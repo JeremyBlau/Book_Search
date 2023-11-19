@@ -1,89 +1,72 @@
-const { User } = require('../models/');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const AuthService = require('../path_to_your_AuthService_file');
+const User = require('./path_to_User_model'); // Import your User model
+// You would do the same for the Book model if you have separate operations for books
 
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
-      if (!context.user) {
-        throw new Error('Authentication error. Please log in.');
+    // Resolver for getting a user by ID
+    getUser: async (_, { userId }) => {
+      try {
+        const user = await User.findById(userId);
+        return user;
+      } catch (err) {
+        throw new Error('Failed to fetch user');
       }
-      return await User.findById(context.user._id);
     },
+    // Resolver for getting all users
+    getAllUsers: async () => {
+      try {
+        const users = await User.find();
+        return users;
+      } catch (err) {
+        throw new Error('Failed to fetch users');
+      }
+    },
+    // Resolver for getting bookCount of a user
+    getUserBookCount: async (_, { userId }) => {
+      try {
+        const user = await User.findById(userId);
+        return user.bookCount;
+      } catch (err) {
+        throw new Error('Failed to fetch user');
+      }
+    },
+    // Add more queries as needed...
   },
   Mutation: {
-    login: async (parent, { email, password }, context) => {
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        throw new Error('Invalid credentials');
+    // Resolver for adding a new user
+    addUser: async (_, { username, email, password }) => {
+      try {
+        const user = await User.create({ username, email, password });
+        return user;
+      } catch (err) {
+        throw new Error('Failed to create user');
       }
-
-      const validPassword = await bcrypt.compare(password, user.password);
-
-      if (!validPassword) {
-        throw new Error('Invalid credentials');
-      }
-
-      // Create JWT token for authentication
-      const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
-
-      // Store the token in localStorage using your AuthService
-      AuthService.login(token);
-
-      return user;
     },
-    addUser: async (parent, { username, email, password }, context) => {
-      const existingUser = await User.findOne({ email });
-
-      if (existingUser) {
-        throw new Error('User already exists');
+    // Resolver for updating user details
+    updateUser: async (_, { userId, username, email }) => {
+      try {
+        const updatedUser = await User.findByIdAndUpdate(
+          userId,
+          { username, email },
+          { new: true } // To return the updated user
+        );
+        return updatedUser;
+      } catch (err) {
+        throw new Error('Failed to update user');
       }
-
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      const newUser = await User.create({
-        username,
-        email,
-        password: hashedPassword,
-      });
-
-      // Create JWT token for the new user upon successful registration
-      const token = jwt.sign({ userId: newUser._id }, 'your_secret_key', { expiresIn: '1h' });
-
-      // Store the token in localStorage using your AuthService
-      AuthService.login(token);
-
-      return newUser;
     },
-    saveBook: async (parent, { bookInput }, context) => {
-      if (!context.user) {
-        throw new Error('Authentication error. Please log in.');
+    // Resolver for deleting a user
+    deleteUser: async (_, { userId }) => {
+      try {
+        const deletedUser = await User.findByIdAndDelete(userId);
+        return deletedUser;
+      } catch (err) {
+        throw new Error('Failed to delete user');
       }
-
-      const user = await User.findByIdAndUpdate(
-        context.user._id,
-        { $push: { savedBooks: bookInput } },
-        { new: true }
-      );
-
-      return user;
     },
-    removeBook: async (parent, { bookId }, context) => {
-      if (!context.user) {
-        throw new Error('Authentication error. Please log in.');
-      }
-
-      const user = await User.findByIdAndUpdate(
-        context.user._id,
-        { $pull: { savedBooks: { bookId } } },
-        { new: true }
-      );
-
-      return user;
-    },
+    // Add more mutations as needed...
   },
+  // You can define resolvers for nested fields, mutations related to books, etc.
 };
 
 module.exports = resolvers;
