@@ -41,10 +41,26 @@ const SearchBooks = () => {
     }
 
     try {
-      // Fetch Google Books data...
-      // ... (remaining code remains unchanged)
+      const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=${searchInput}`
+      );
 
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+      // response for 'fetch' is here
+      const { items } = await response.json();
+
+      const bookData = items.map((book) => ({
+        bookId: book.id,
+        authors: book.volumeInfo.authors || ['No author to display'],
+        title: book.volumeInfo.title,
+        description: book.volumeInfo.description,
+        image: book.volumeInfo.imageLinks?.thumbnail || '',
+      }));
+      // save searched books to react State
       setSearchedBooks(bookData);
+      // clear the search input field
       setSearchInput('');
     } catch (err) {
       console.error(err);
