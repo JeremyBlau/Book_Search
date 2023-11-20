@@ -1,4 +1,4 @@
-const User = require('./path_to_User_model'); // Import your User model
+const User = require("../models/User"); // Import your User model
 // You would do the same for the Book model if you have separate operations for books
 
 const resolvers = {
