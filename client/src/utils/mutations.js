@@ -19,6 +19,15 @@ export const ADD_USER = gql`
       user {
         _id
         username
+        email
+        bookCount
+        savedBooks {
+          authors
+          bookId
+          image
+          link
+          title
+          description
       }
     }
   }
@@ -29,6 +38,14 @@ export const SAVE_BOOK = gql`
     saveBook(bookInput: $bookInput) {
       _id
       username
+      email
+      savedBooks {
+        bookId
+        authors
+        description
+        title
+        image
+        link
     }
   }
 `;
@@ -38,6 +55,14 @@ export const REMOVE_BOOK = gql`
     removeBook(bookId: $bookId) {
       _id
       username
+      email
+      savedBooks {
+        bookId
+        authors
+        description
+        title
+        image
+        link
     }
   }
 `;
