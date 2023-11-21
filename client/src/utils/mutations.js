@@ -28,6 +28,7 @@ export const ADD_USER = gql`
           link
           title
           description
+        }
       }
     }
   }
@@ -46,6 +47,7 @@ export const SAVE_BOOK = gql`
         title
         image
         link
+      }
     }
   }
 `;
@@ -63,6 +65,7 @@ export const REMOVE_BOOK = gql`
         title
         image
         link
+      }
     }
   }
 `;
