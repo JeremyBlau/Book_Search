@@ -7,19 +7,10 @@ import {
   Card,
   Row
 } from 'react-bootstrap';
-import { useMutation, gql } from '@apollo/client';
-
+import { useMutation } from '@apollo/client';
+import { SAVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-
-// Define the SAVE_BOOK mutation
-const SAVE_BOOK = gql`
-  mutation SaveBook($bookInput: BookInput!) {
-    saveBook(bookInput: $bookInput) {
-      bookId
-    }
-  }
-`;
 
 const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);

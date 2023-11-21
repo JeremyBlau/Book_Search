@@ -27,14 +27,12 @@ const typeDefs = gql`
     getUser(userId: ID!): User
     getAllUsers: [User]
     getUserBookCount(userId: ID!): Int
-    # Add more queries as needed...
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): User
     updateUser(userId: ID!, username: String!, email: String!): User
     deleteUser(userId: ID!): User
-    # Add more mutations as needed...
   }
 `;
 

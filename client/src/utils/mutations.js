@@ -27,10 +27,8 @@ export const ADD_USER = gql`
 export const SAVE_BOOK = gql`
   mutation saveBook($bookInput: BookInput!) {
     saveBook(bookInput: $bookInput) {
-      // Assuming 'User' type structure returned
       _id
       username
-      // Other user fields
     }
   }
 `;
@@ -38,10 +36,8 @@ export const SAVE_BOOK = gql`
 export const REMOVE_BOOK = gql`
   mutation removeBook($bookId: ID!) {
     removeBook(bookId: $bookId) {
-      // Assuming 'User' type structure returned
       _id
       username
-      // Other user fields
     }
   }
 `;

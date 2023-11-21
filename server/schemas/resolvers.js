@@ -1,5 +1,4 @@
 const User = require("../models/User"); // Import your User model
-// You would do the same for the Book model if you have separate operations for books
 
 const resolvers = {
   Query: {
@@ -30,7 +29,6 @@ const resolvers = {
         throw new Error('Failed to fetch user');
       }
     },
-    // Add more queries as needed...
   },
   Mutation: {
     // Resolver for adding a new user
@@ -64,9 +62,7 @@ const resolvers = {
         throw new Error('Failed to delete user');
       }
     },
-    // Add more mutations as needed...
   },
-  // You can define resolvers for nested fields, mutations related to books, etc.
 };
 
 module.exports = resolvers;
