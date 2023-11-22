@@ -13,7 +13,7 @@ const SignupForm = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   // Initialize the ADD_USER mutation
-  const [addUser] = useMutation(ADD_USER);
+  const [addUser, {error}] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -32,7 +32,7 @@ const SignupForm = () => {
 
     try {
       // Use the addUser mutation to create a new user
-      const { data } = await addUser({ variables: userFormData });
+      const { data } = await addUser({ variables: {...userFormData} }); 
 
       const { token, user } = data.addUser;
       console.log(user);
