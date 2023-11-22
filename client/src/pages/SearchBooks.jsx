@@ -72,7 +72,7 @@ const SearchBooks = () => {
         variables: { bookInput: { ...bookToSave } }
       });
 
-      setSavedBookIds([...savedBookIds, data.saveBook.bookId]);
+      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
     }

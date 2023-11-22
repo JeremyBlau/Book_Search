@@ -12,14 +12,14 @@ const typeDefs = gql`
   type Book {
     authors: [String]
     description: String!
-    bookId: String!
+    bookId: ID!
     image: String
     link: String
     title: String!
   }
 
   type AuthPayload {
-    token: String
+    token: ID
     user: User
   }
 
@@ -38,7 +38,7 @@ const typeDefs = gql`
     authors: [String]
     description: String!
     bookId: String!
-    image: Stringk
+    image: String
     link: String
     title: String!
   }
