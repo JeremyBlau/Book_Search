@@ -5,7 +5,7 @@ Screenshots
 <img width="1107" alt="image" src="https://github.com/JeremyBlau/Book_Search/assets/134236414/f393a815-d34c-46fd-8cf0-02c7d577f05e">
 
 ## Deployment
-This application is not currently deployed as railway has ended its free trial but it does run locally.
+Deployed link can be found here: https://booksearch-production.up.railway.app/
 
 ## Installation
 To install and run this project locally, follow these steps:
